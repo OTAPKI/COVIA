@@ -1,0 +1,32 @@
+//
+//  VirtualAudio.xcconfig
+//  VirtualAudio-Aspen
+//
+//  Created by Andrew Rostaing on 2013.03.13.
+//  Copyright (c) 2007-2013 Apple Inc. All rights reserved.
+//
+
+#include "<DEVELOPER_DIR>/AppleInternal/XcodeConfig/AspenSDK.xcconfig"
+
+// Set this when the program office requests it.
+// This determines which log levels are compiled into the binary, and what the default to.
+// This determines along with CA_SEED_BUILD, whether file/function names are included in logs.
+CA_GM_BUILD = 1
+
+// Interpret RC_SEED_BUILD (if present) and CA_GM_BUILD for STRIP_STYLE.
+// This determines stripping for release builds only; debug builds override the xccoonfig value to strip to debugging
+// symbols.
+CA_STRIP_STYLE_0=debugging
+CA_STRIP_STYLE_01=non-global
+CA_STRIP_STYLE_1=non-global
+CA_STRIP_STYLE_11=non-global
+STRIP_STYLE=$(CA_STRIP_STYLE_$(CA_GM_BUILD)$(RC_SEED_BUILD))
+
+// Interpret RC_SEED_BUILD (if present) for CA_SEED_BUILD.
+// This determines, along with CA_GM_BUILD, whether file/function names are included in logs.
+IS_SEED_=0
+IS_SEED_1=1
+CA_SEED_BUILD=$(IS_SEED_$(RC_SEED_BUILD))
+
+// Append CA_GM_BUILD and CA_SEED_BUILD to preprocessor definitions.
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) CA_GM_BUILD=$(CA_GM_BUILD) CA_SEED_BUILD=$(CA_SEED_BUILD)
